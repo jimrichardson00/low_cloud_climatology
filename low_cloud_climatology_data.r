@@ -6,6 +6,8 @@ registerDoParallel(cores = 3)
 
 setwd("/home/jim/Dropbox/Projects/low_cloud_climatology")
 
+# -------------------------------------------------------------------
+
 # reads in metar data
 setwd("/media/jim/FAT323/Projects/low_cloud_climatology")
 require(data.table)
@@ -206,62 +208,6 @@ metar_norain <- merge(x = metar, y = rainday_df, by = "datemid")
 metar_norain <- metar_norain[metar_norain$rainday == 0, ]
 head(metar_norain)
 
-# require(plyr)
-# lcldday_df <- ddply(.data = metar_norain
-#   , .variables = c("datemid")
-#   , .fun = summarize
-
-#   , lcldday = ifelse(
-#         any(
-#           lwcloud_fun(
-#             # preci10
-#             cldoct1
-#             , cldoct2
-#             , cldoct3
-#             , cldoct4
-#             , cldocc1
-#             , cldocc2
-#             , cldocc3
-#             , cldhgt1
-#             , cldhgt2
-#             , cldhgt3
-#             , cldhgt4
-#             , cldhtc1
-#             , cldhtc2
-#             , cldhtc3
-#             )
-#           )
-#         , 1, 0)
-#   )
-# head(lcldday_df)  
-
-# require(parallel)
-# require(foreach)
-# metar_norain$lwcloud <- unlist(
-
-#   foreach(i = seq(1, nrow(metar_norain), 1)) %dopar% {
-
-#           ifelse(
-#             lwcloud_fun(
-#               , cldoct1 = metar_norain[i, ]$cldoct1
-#               , cldoct2 = metar_norain[i, ]$cldoct2
-#               , cldoct3 = metar_norain[i, ]$cldoct3
-#               , cldoct4 = metar_norain[i, ]$cldoct4
-#               , cldocc1 = metar_norain[i, ]$cldocc1
-#               , cldocc2 = metar_norain[i, ]$cldocc2
-#               , cldocc3 = metar_norain[i, ]$cldocc3
-#               , cldhgt1 = metar_norain[i, ]$cldhgt1
-#               , cldhgt2 = metar_norain[i, ]$cldhgt2
-#               , cldhgt3 = metar_norain[i, ]$cldhgt3
-#               , cldhgt4 = metar_norain[i, ]$cldhgt4
-#               , cldhtc1 = metar_norain[i, ]$cldhtc1
-#               , cldhtc2 = metar_norain[i, ]$cldhtc2
-#               , cldhtc3 = metar_norain[i, ]$cldhtc3
-#               )
-#           , 1, 0)
-#         }
-#         )
-
 require(parallel)
 require(foreach)
 bknhght <- unlist(
@@ -291,6 +237,7 @@ bknhght <- unlist(
         }
         )
 head(bknhght)
+metar_norain$bknhght <- bknhght
 
 setwd("/home/jim/Dropbox/Projects/low_cloud_climatology")
 write.csv(metar_norain, "metar_norain.csv")
